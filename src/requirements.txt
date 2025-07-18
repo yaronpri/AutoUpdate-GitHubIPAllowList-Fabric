@@ -1,0 +1,2 @@
+azure-identity==1.23.1
+azure-mgmt-network==29.0.0
