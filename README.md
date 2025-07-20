@@ -18,22 +18,24 @@ Based on scheduled interval the program will start:
 ```
 az provider register --namespace Microsoft.Network
 ```
-- Azure Identity 
+- Assign 'reader' permission to Azure subscription to either: 
 ```
-Create service principal in same subscription (grab the tenat id, client id, client secret) 
+Newly created service principal in same Azure subscription (grab the tenat id, client id, client secret) 
 OR
-use of Azure Managed Identity - for this you will beed to run this program on Azure with identity assigned to the hosted service
+Use of Azure Managed Identity - for this you will need to run the container on Azure service with identity assigned
+
 ```
 - GitHub PAT which has the following scope for your GitHub Enterprise Cloud: admin:enterprise, read:org
 
 
-## How to execute the program
-- Set following environment variable
+## How to build the container and execute
+- Build the docker image
 ```
-GITHUB_ENTERPRISE = <GITHUB ENTERPRISE NAME>
-GITHUB_TOKEN = <PAT TOKEN>
-FABRIC_REGION = <YOUR FABRIC HOME TENANT REGION>
-AZURE_SUBSCRIPTION_ID=<AZURE SUBSCRIPTION ID>
-IP_ALLOW_LIST_MODE = <DEFAULT is to run in dryrun, to actual perform the update operation set this value to execution>
+while in the root folder execute:
+docker build -t allowlistupdater .
+```
+- Run the following docker command
+```
+docker run -d -e AZURE_SUBSCRIPTION_ID=<ID> -e GITHUB_TOKEN=<TOKEN>  -e GITHUB_ENTERPRISE=<NAME> -e FABRIC_REGION=<azure region> -e IP_ALLOW_LIST_MODE=<execution for actual run> -e RUN_INTERVAL_MINUTES=<INTERVAL in MIN> -e AZURE_CLIENT_ID=<S{N Client ID}> -e AZURE_TENANT_ID=<TENANT ID> -e AZURE_CLIENT_SECRET=<SPN secret> allowlistupdater
+```
 
-```

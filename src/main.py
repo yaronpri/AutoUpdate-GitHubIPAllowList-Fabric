@@ -1,12 +1,15 @@
-import sys, requests, os, json, logging
-from asyncio.log import logger
+import sys, requests, os, logging
 from azure.identity import DefaultAzureCredential
 from azure.mgmt.network import NetworkManagementClient
 from datetime import datetime
 
+if not logging.getLogger().hasHandlers():
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+        stream=sys.stdout
+    )
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
-logger.addHandler(logging.StreamHandler(sys.stdout))
 
 def get_github_headers():
     """Get headers for GitHub GraphQL API"""
@@ -257,9 +260,8 @@ def update_github_ip_allowlist(filtered_ips, enterprise_slug, tag_prefix, execut
       error_count = 0
       for i, ip_range in enumerate(filtered_ips):
         entry_name = f"{tag_prefix}-{i+1:03d}"  # Zero-pad for better sorting
-        logger.info(f"Adding IP range: {entry_name} - {ip_range}")
-        
         if (ip_range['state'] == 0):
+          logger.info(f"Adding entry: {ip_range}")
           add_result = add_ip_to_allow_list(enterprise_info["id"], ip_range['ip'], entry_name)            
           if "errors" in add_result:
             logger.error(f"Error adding IP range {ip_range}: {add_result['errors']}")
@@ -268,7 +270,8 @@ def update_github_ip_allowlist(filtered_ips, enterprise_slug, tag_prefix, execut
             success_count += 1
       
       logger.info(f"GitHub Enterprise IP allow list updated!")
-      logger.info(f"   Added: {success_count} Failed: {error_count} Fabric IP ranges")
+      logger.info(f"   Added: {success_count} Fabric IP ranges")
+      logger.info(f"   Failed: {error_count} requests")
       logger.info(f"   Removed: {len(todelete_entries)} old Fabric IP entries")
       logger.info(f"   Not changed: {exist_count} Fabric IP entries")
     
@@ -299,7 +302,6 @@ def main():
   if not github_token:
     logger.error("GITHUB_TOKEN environment variable is required. PAT scope require:admin:enterprise, read:org ")
     return
-
   if not executation_mode:
     logger.info(f"Execution mode is: {executation_mode} - to run actual operation set env variable IP_ALLOW_LIST_MODE to execution")
   else:
@@ -330,7 +332,7 @@ def main():
 
   
   # Update GitHub Enterprise IP allow list
-  logger.info(f"\nUpdating GitHub Enterprise IP allow list for: {github_enterprise}")
+  logger.info(f"Updating GitHub Enterprise IP allow list for: {github_enterprise}")
   fabric_tag_prefix = f"Fabric.{region}".lower()
   update_github_ip_allowlist(filtered_ips, github_enterprise, fabric_tag_prefix, executation_mode)
 
