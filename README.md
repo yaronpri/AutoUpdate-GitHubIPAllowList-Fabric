@@ -18,24 +18,17 @@ Based on scheduled interval the program will start:
 ```
 az provider register --namespace Microsoft.Network
 ```
-- Assign 'reader' permission to Azure subscription to either: 
-```
-Newly created service principal in same Azure subscription (grab the tenat id, client id, client secret) 
-OR
-Use of Azure Managed Identity - for this you will need to run the container on Azure service with identity assigned
+- Create service principal in same Azure subscription (grab the tenant id, client id, client secret) and assign 'reader' permission to Azure subscription
+- GitHub PAT which has the following scope for your GitHub Enterprise Cloud: ```admin:enterprise, read:org```
+- IMPROTANT: The IP where you host the docker container need to be allowed in IP allow list of your GitHub Enterprise Cloud instance
 
+## How to execute the docker image
+- Downdload the docker image
 ```
-- GitHub PAT which has the following scope for your GitHub Enterprise Cloud: admin:enterprise, read:org
-
-
-## How to build the container and execute
-- Build the docker image
-```
-while in the root folder execute:
-docker build -t allowlistupdater .
+docker pull ghcr.io/yaronpri/fabric-ipallowlist-updater:latest
 ```
 - Run the following docker command
 ```
-docker run -d -e AZURE_SUBSCRIPTION_ID=<ID> -e GITHUB_TOKEN=<TOKEN>  -e GITHUB_ENTERPRISE=<NAME> -e FABRIC_REGION=<azure region> -e IP_ALLOW_LIST_MODE=<execution for actual run> -e RUN_INTERVAL_MINUTES=<INTERVAL in MIN> -e AZURE_CLIENT_ID=<S{N Client ID}> -e AZURE_TENANT_ID=<TENANT ID> -e AZURE_CLIENT_SECRET=<SPN secret> allowlistupdater
+docker run -d -e AZURE_SUBSCRIPTION_ID=<ID> -e GITHUB_TOKEN=<TOKEN>  -e GITHUB_ENTERPRISE=<NAME> -e FABRIC_REGION=<azure region> -e IP_ALLOW_LIST_MODE=<execution for actual run> -e RUN_INTERVAL_MINUTES=<INTERVAL in MIN> -e AZURE_CLIENT_ID=<S{N Client ID}> -e AZURE_TENANT_ID=<TENANT ID> -e AZURE_CLIENT_SECRET=<SPN secret> ghcr.io/yaronpri/fabric-ipallowlist-updater:latest
 ```
 
