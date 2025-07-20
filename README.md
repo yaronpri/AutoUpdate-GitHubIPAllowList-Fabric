@@ -7,7 +7,7 @@ This sample program aim to update GitHub Enterprise Cloud - IP Allow list config
 ![alt text](img/fabric-ip-allow-list.png)
 
 ## How the solution works
-Based on scheduled interval the program will start:
+Based on scheduled interval the docker container will perform:
 1. Get the updated list of Fabric outbound IP for the request region (tag name: PowerBI.X) 
 1. Connect to GitHub Enterprise Cloud instance and find which IPs need to be added / deleted / unchanged using GraphQL Github API
 1. Add / Delete the IPs
@@ -31,4 +31,6 @@ docker pull ghcr.io/yaronpri/fabric-ipallowlist-updater:latest
 ```
 docker run -d -e AZURE_SUBSCRIPTION_ID=<ID> -e GITHUB_TOKEN=<TOKEN>  -e GITHUB_ENTERPRISE=<NAME> -e FABRIC_REGION=<azure region> -e IP_ALLOW_LIST_MODE=<execution for actual run> -e RUN_INTERVAL_MINUTES=<INTERVAL in MIN> -e AZURE_CLIENT_ID=<S{N Client ID}> -e AZURE_TENANT_ID=<TENANT ID> -e AZURE_CLIENT_SECRET=<SPN secret> ghcr.io/yaronpri/fabric-ipallowlist-updater:latest
 ```
+
+- You can host this solution on Azure services like: Azure app container , Azure container instance or even Azure VM, make sure you know the outbound ip that the Azure service will use, as its need to be configure as part of the IP allow list
 
