@@ -7,7 +7,7 @@ This sample program aim to sync on predefined interval the GitHub Enterprise Clo
 ![alt text](img/fabric-ip-allow-list.png)
 
 ## GitHub side - IP Allow List configuration
-The solution describe in this repo, supported when your GitHub Enterprise Cloud IP allow list is configured on the GitHub side, as illustrated here:
+The solution describe in this repo, supported when your GitHub Enterprise Cloud - IP allow list is configured on the GitHub side, as illustrated here:
 ![alt text](img/configuration.png)
 
 ## How the solution works
