@@ -1,13 +1,13 @@
-# AutoUpdate-GitHubIPAllowList-Fabric
+# Fabric Outbound IPs sync with GitHub Enterprise Cloud - IpAllowList
 
 ## About
-This sample program aim to update GitHub Enterprise Cloud - IP Allow list configuration with the current Fabric outbound IPs for specific region to allow Fabric Git Integration to work with this enterpeise instance.
+This sample program aim to sync on predefined interval the GitHub Enterprise Cloud - IP Allow list configuration with the current Fabric outbound IPs based on your Fabric home tenant region to enable Fabric Git Integration to work with this enterpeise instance.
 
 ## Diagram
 ![alt text](img/fabric-ip-allow-list.png)
 
 ## GitHub side - IP Allow List configuration
-This solution is working in case your GitHub Enterprise Cloud - IP Allow list configure to be set on GitHub side as shown here:
+The supported scenario is in case your GitHub Enterprise Cloud - IP Allow list configure to be set on GitHub side as shown here:
 ![alt text](img/configuration.png)
 
 ## How the solution works
