@@ -7,14 +7,14 @@ This sample program aim to update GitHub Enterprise Cloud - IP Allow list config
 ![alt text](img/fabric-ip-allow-list.png)
 
 ## GitHub side - IP Allow List configuration
-IP Allow list configure to be set on GitHub side
+This solution is working in case your GitHub Enterprise Cloud - IP Allow list configure to be set on GitHub side as shown here:
 ![alt text](img/configuration.png)
 
 ## How the solution works
 Based on scheduled interval the docker container will perform:
 1. Get the updated list of Fabric outbound IP for the request region (tag name: PowerBI.X) 
 1. Connect to GitHub Enterprise Cloud instance and find which IPs need to be added / deleted / unchanged using GraphQL Github API
-1. Add / Delete the IPs
+1. Call GraphQL GitHub API to Add / Delete the IP allow list
 
 ### Prerequisites
 
@@ -27,7 +27,7 @@ az provider register --namespace Microsoft.Network
 - IMPROTANT: The IP where you host the docker container need to be allowed in IP allow list of your GitHub Enterprise Cloud instance
 
 ## How to leverage this solution
-### Option 1 - use pre-compiled docker image hosted in ghcr.io
+### Option 1 - use ready-for-use docker image
 - Downdload the docker image
 ```
 docker pull ghcr.io/yaronpri/fabric-ipallowlist-updater:latest
