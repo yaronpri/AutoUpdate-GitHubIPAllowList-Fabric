@@ -24,7 +24,7 @@ az provider register --namespace Microsoft.Network
 ```
 - Create service principal in same Azure subscription (grab the tenant id, client id, client secret) and assign 'reader' permission to Azure subscription
 - GitHub PAT which has the following scope for your GitHub Enterprise Cloud: ```admin:enterprise, read:org```
-- IMPROTANT: The IP where you host the docker container need to be allowed in IP allow list of your GitHub Enterprise Cloud instance
+- IMPROTANT: The outbound IP where you run the solution need to be added to IP allow list of your GitHub Enterprise Cloud instance
 
 ## How to leverage this solution
 ### Option 1 - use ready-for-use docker image
