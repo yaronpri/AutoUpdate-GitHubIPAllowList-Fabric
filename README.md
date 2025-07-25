@@ -34,10 +34,11 @@ docker pull ghcr.io/yaronpri/fabric-ipallowlist-updater:latest
 ```
 - Run the following docker command
 ```
-docker run -d -e AZURE_SUBSCRIPTION_ID=<ID> -e GITHUB_TOKEN=<TOKEN>  -e GITHUB_ENTERPRISE=<NAME> -e FABRIC_REGION=<azure region> -e IP_ALLOW_LIST_MODE=<execution for actual run> -e RUN_INTERVAL_MINUTES=<INTERVAL in MIN> -e AZURE_CLIENT_ID=<SPN client ID}> -e AZURE_TENANT_ID=<TENANT ID> -e AZURE_CLIENT_SECRET=<SPN client secret> ghcr.io/yaronpri/fabric-ipallowlist-updater:latest
+docker run -d -e AZURE_SUBSCRIPTION_ID=<ID> -e GITHUB_TOKEN=<TOKEN>  -e GITHUB_ENTERPRISE=<NAME> -e FABRIC_REGION=<azure region> -e IP_ALLOW_LIST_MODE=<execution for actual run> -e RUN_INTERVAL_MINUTES=<INTERVAL in MIN> -e AZURE_CLIENT_ID=<SPN client ID> -e AZURE_TENANT_ID=<TENANT ID> -e AZURE_CLIENT_SECRET=<SPN client secret> ghcr.io/yaronpri/fabric-ipallowlist-updater:latest
 ```
 
 - You can host this solution on Azure services like: Azure app container , Azure container instance or even Azure VM, make sure you know the outbound ip that the Azure service will use, as its need to be configure as part of the IP allow list
+- You can leverage Azure Managed Identity to execute this solution, just assign managed identity to your Azure service, give it a ```reader``` role on your Azure subscription. if it's user managed identity, you can pass the client id as AZURE_CLIENT_ID, when using managed identity (user or system) you don't need to pass AZURE_TENANT_ID, AZURE_CLIENT_SECRET
 
 ### Option 2 - build your own docker image
 - Fork and clone this repo locally
@@ -52,9 +53,9 @@ GITHUB_TOKEN = <PAT TOKEN>
 FABRIC_REGION = <YOUR FABRIC HOME TENANT REGION>
 AZURE_SUBSCRIPTION_ID=<AZURE SUBSCRIPTION ID>
 IP_ALLOW_LIST_MODE = <DEFAULT is to run in dryrun, to actual perform the update operation set this value to execution>
-AZURE_TENANT_ID = <AZURE_TENANT_ID>
-AZURE_CLIENT_ID = <AZURE_CLIENT_ID>
-AZURE_CLIENT_SECRET = <AZURE_CLIENT_SECRET>
+AZURE_CLIENT_ID = <AZURE_CLIENT_ID - Not mandatory if using Azure system managed identiy>
+AZURE_TENANT_ID = <AZURE_TENANT_ID - Not mandatory if using Azure managed identity>
+AZURE_CLIENT_SECRET = <AZURE_CLIENT_SECRET - Not mandatory if using Azure managed identity>
 ```
 - execute the python program 
 ```
