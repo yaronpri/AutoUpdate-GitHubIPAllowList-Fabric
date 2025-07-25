@@ -24,7 +24,7 @@ az provider register --namespace Microsoft.Network
 ```
 - Create service principal in same Azure subscription (grab the tenant id, client id, client secret) and assign 'reader' permission to Azure subscription.
 ```
-If you are host this solution on Azure, you can leverage Azure Managed Identity, 
+In case hosting this solution on Azure, you can leverage Azure Managed Identity, 
 just assign managed identity to your Azure service, give it a 'reader' role on your Azure subscription. 
 If it's a user managed identity, you can pass the client id as AZURE_CLIENT_ID. 
 When using managed identity (user or system) you don't need to pass AZURE_TENANT_ID, AZURE_CLIENT_SECRET
