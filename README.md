@@ -22,7 +22,8 @@ Based on scheduled interval the docker container will perform:
 ```
 az provider register --namespace Microsoft.Network
 ```
-- Create service principal in same Azure subscription (grab the tenant id, client id, client secret) and assign 'reader' permission to Azure subscription
+- Create service principal in same Azure subscription (grab the tenant id, client id, client secret) and assign 'reader' permission to Azure subscription.
+You can leverage Azure Managed Identity to execute this solution, just assign managed identity to your Azure service, give it a ```reader``` role on your Azure subscription. if it's user managed identity, you can pass the client id as AZURE_CLIENT_ID, when using managed identity (user or system) you don't need to pass AZURE_TENANT_ID, AZURE_CLIENT_SECRET
 - GitHub PAT which has the following scope for your GitHub Enterprise Cloud: ```admin:enterprise, read:org```
 - IMPROTANT: The outbound IP where you run the solution need to be added to IP allow list of your GitHub Enterprise Cloud instance
 
